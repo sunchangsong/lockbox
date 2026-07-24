@@ -1,0 +1,15 @@
+title: LockBox
+description: LockBox encrypted video player and digital content protection documentation
+markdown: kramdown
+
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-relative-links
+  - jekyll-titles-from-headings
+
+optional_front_matter:
+  remove_originals: true
+
+relative_links:
+  enabled: true
+  collections: true
