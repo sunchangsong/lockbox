@@ -108,3 +108,15 @@ LockBox 的核心理念是：
 那么 LockBox 可以成为你的基础设施。
 
 **让内容可传播，但不可失控。**
+
+#### 语言列表
+English
+Mandarin Chinese
+Hindi
+Spanish
+Arabic
+French
+Bengali
+Portuguese
+Indonesian
+Urdu
