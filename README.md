@@ -111,12 +111,22 @@ LockBox 的核心理念是：
 
 #### 语言列表
 English
-Mandarin Chinese
-Hindi
 Spanish
-Arabic
+German
+Japanese
 French
-Bengali
 Portuguese
+Russian
+Italian
+Dutch
+Polish
+Turkish
+Mandarin Chinese
 Indonesian
-Urdu
+Czech
+Vietnamese
+Persian
+Korean
+Ukrainian
+Hungarian
+Arabic
