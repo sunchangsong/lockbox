@@ -25,6 +25,11 @@ function Write-Utf8File([string] $path, [string] $content) {
     [System.IO.File]::WriteAllText($path, $content, $utf8NoBom)
 }
 
+function Read-Utf8Lines([string] $path, [int] $maxLines) {
+    return [System.IO.File]::ReadLines($path, [System.Text.Encoding]::UTF8) |
+        Select-Object -First $maxLines
+}
+
 function PageShell([string] $title, [string] $body, [int] $depth) {
     $css = RelativeCss $depth
     $encodedTitle = HtmlEncode $title
@@ -53,6 +58,28 @@ function FormatDocTitle([System.IO.FileInfo] $file) {
     }
 
     return $stem -replace "_", " "
+}
+
+function GetMarkdownTitle([System.IO.FileInfo] $file) {
+    $lines = @(Read-Utf8Lines $file.FullName 20)
+
+    $heading = $lines |
+        Where-Object { $_ -match "^#\s*(.+)$" } |
+        Select-Object -First 1
+
+    if ($heading -and $heading -match "^#\s*(.+)$") {
+        return $Matches[1].Trim()
+    }
+
+    $firstLine = $lines |
+        Where-Object { $_.Trim().Length -gt 0 } |
+        Select-Object -First 1
+
+    if ($firstLine) {
+        return $firstLine.Trim()
+    }
+
+    return "LockBox introduction"
 }
 
 function SiteUrlFor([string[]] $segments) {
@@ -116,11 +143,12 @@ foreach ($language in $languageDirs) {
     $docs = @(Get-ChildItem -LiteralPath $language.FullName -File -Filter "*.md" | Sort-Object Name)
     $docItems = foreach ($doc in $docs) {
         $docTitle = HtmlEncode (FormatDocTitle $doc)
+        $contentTitle = HtmlEncode (GetMarkdownTitle $doc)
         $href = [System.Uri]::EscapeDataString(([System.IO.Path]::GetFileNameWithoutExtension($doc.Name) + ".html"))
         @"
         <a class="tile" href="$href">
           <strong>$docTitle</strong>
-          <span>LockBox introduction</span>
+          <span>$contentTitle</span>
         </a>
 "@
     }
